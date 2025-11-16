@@ -7,6 +7,8 @@ public class GameManager : MonoBehaviour
     public int vidas = 3;
     public TextMeshProUGUI textPontos;
 
+    public VidaUI vidaUI;
+
     public void AddPoints(int qtd)
     {
         pontos = pontos + qtd;
@@ -24,6 +26,9 @@ public class GameManager : MonoBehaviour
     {
         vidas = vidas - vida;
         Debug.Log("Vidas: " + vidas);
+
+        if (vidaUI != null)
+            vidaUI.AtualizarVidas(vidas);
 
         GameObject player = GameObject.FindWithTag("Player");
         player.GetComponent<Player>().RestartPosition();
