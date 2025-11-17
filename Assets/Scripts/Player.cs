@@ -5,6 +5,7 @@ public class Player : MonoBehaviour
     public Animator anim;
     private Rigidbody2D rigd;
     public float speed; //colocar velocidade no boneco
+    private PlayerAudio playerAudio;
 
     public float jumpForce = 7f;
     public bool isground; //verificar se ta no chão
@@ -18,6 +19,7 @@ public class Player : MonoBehaviour
         anim = GetComponent<Animator>();
         rigd = GetComponent<Rigidbody2D>();
         PosicaoInicial = transform.position;
+        playerAudio = gameObject.GetComponent<PlayerAudio>();
 
     }
     void Update()
@@ -56,6 +58,7 @@ public class Player : MonoBehaviour
             rigd.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
             anim.SetBool("IsJumping", true);
             isground = false;
+            playerAudio.PlaySFX(playerAudio.jumpSound);
         }
     }
 
@@ -70,6 +73,7 @@ public class Player : MonoBehaviour
 
         if (collision.gameObject.tag == "lost")
         {
+            playerAudio.PlaySFX(playerAudio.morreuSound);
             Debug.Log("Morreu");
         }
     }

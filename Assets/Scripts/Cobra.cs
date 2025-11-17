@@ -1,25 +1,73 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Cobra : MonoBehaviour
 {
     public GameManager GameManager;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    public GameObject pointA;
+    public GameObject pointB;
+
+    public float speed = 2f;     // <-- FIXED: you forgot to define speed
+
+    private Rigidbody2D rb;
+    private Animator anim;
+    private Transform currentPoint;
+
     void Start()
     {
+        rb = GetComponent<Rigidbody2D>();
+        anim = GetComponent<Animator>();
+        currentPoint = pointB.transform;
 
+        anim.SetBool("isRunning", true);
     }
 
-    // Update is called once per frame
     void Update()
     {
+        if (currentPoint == pointB.transform)
+        {
+            rb.linearVelocity = new Vector2(speed, 0);   // Unity updated API
+        }
+        else
+        {
+            rb.linearVelocity = new Vector2(-speed, 0);
+        }
 
+        if (Vector2.Distance(transform.position, currentPoint.position) < 0.5f
+            && currentPoint == pointB.transform)
+        {
+            Flip();
+            currentPoint = pointA.transform;
+        }
+
+        if (Vector2.Distance(transform.position, currentPoint.position) < 0.5f
+            && currentPoint == pointA.transform)
+        {
+            Flip();
+            currentPoint = pointB.transform;
+        }
     }
 
-    public void OnCollisionEnter2D(Collision2D collision)
+    private void Flip()
+    {
+        Vector3 localScale = transform.localScale;
+        localScale.x *= -1;
+        transform.localScale = localScale;
+    }
+
+    void OnDrawGizmos()
+    {
+        Gizmos.DrawWireSphere(pointA.transform.position, 0.5f);
+        Gizmos.DrawWireSphere(pointB.transform.position, 0.5f);
+        Gizmos.DrawLine(pointA.transform.position, pointB.transform.position);
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)   // <-- FIXED: moved inside class
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            GameManager.LostLifes(1);
+            GameManager.LostLifes(1);  // <-- Assumes LostLifes is NOT static
         }
     }
 }

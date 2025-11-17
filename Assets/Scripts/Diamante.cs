@@ -23,6 +23,8 @@ public class Coin : MonoBehaviour
             Debug.Log(coin);
             GameManager.AddPoints(10);
             Destroy(gameObject);
+            PlayerAudio som = collision.GetComponent<PlayerAudio>();
+            som.PlaySFX(som.coinSound);
         }
     }
 }
