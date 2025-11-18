@@ -8,7 +8,7 @@ public class Cobra : MonoBehaviour
     public GameObject pointA;
     public GameObject pointB;
 
-    public float speed = 2f;     // <-- FIXED: you forgot to define speed
+    public float speed = 2f;
 
     private Rigidbody2D rb;
     private Animator anim;
@@ -27,7 +27,7 @@ public class Cobra : MonoBehaviour
     {
         if (currentPoint == pointB.transform)
         {
-            rb.linearVelocity = new Vector2(speed, 0);   // Unity updated API
+            rb.linearVelocity = new Vector2(speed, 0);
         }
         else
         {
@@ -63,11 +63,11 @@ public class Cobra : MonoBehaviour
         Gizmos.DrawLine(pointA.transform.position, pointB.transform.position);
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)   // <-- FIXED: moved inside class
+    private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            GameManager.LostLifes(1);  // <-- Assumes LostLifes is NOT static
+            GameManager.LostLifes(1);
         }
     }
 }

@@ -1,5 +1,6 @@
-using UnityEngine;
 using TMPro;
+using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -9,6 +10,11 @@ public class GameManager : MonoBehaviour
 
     public VidaUI vidaUI;
 
+    public void goMenu()
+    {
+        SceneManager.LoadScene(0);
+        Time.timeScale = 0;
+    }
     public void AddPoints(int qtd)
     {
         pontos = pontos + qtd;
@@ -19,13 +25,11 @@ public class GameManager : MonoBehaviour
         }
 
         textPontos.text = "Pontos: " + pontos;
-        Debug.Log("Pontos: " + pontos);
     }
 
     public void LostLifes(int vida)
     {
         vidas = vidas - vida;
-        Debug.Log("Vidas: " + vidas);
 
         if (vidaUI != null)
             vidaUI.AtualizarVidas(vidas);
@@ -35,8 +39,7 @@ public class GameManager : MonoBehaviour
 
         if (vidas <= 0)
         {
-            Time.timeScale = 0;
-            Debug.Log("Game Over!");
+            goMenu();
         }
     }
 }
